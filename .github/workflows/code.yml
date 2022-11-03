@@ -158,7 +158,7 @@ jobs:
         run: pipx run twine upload artifacts/dist/*
 
   make-container:
-    needs: [lint, wheel, test]
+    needs: [lint, wheel]
     runs-on: ubuntu-latest
     permissions:
       contents: read
