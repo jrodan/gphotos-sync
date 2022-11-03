@@ -419,7 +419,7 @@ class GooglePhotosSyncMain:
             if not args.index_only:
                 if (
                     not args.skip_albums
-                    # and (files_downloaded > 0 or args.skip_files or args.rescan)
+                    and (files_downloaded > 0 or args.skip_files or args.rescan)
                     or (args.album is not None or args.album_regex is not None)
                 ):
                     print("create_album_content_links")
