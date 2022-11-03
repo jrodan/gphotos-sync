@@ -1,15 +1,16 @@
 # locally build a runtime container for testing
+docker rmi gphotos-sync-jr:latest
 
 # first make sure a wheel is built
 (
     cd ..
-    pip install build
+    pip3 install build
     rm -r dist
-    python -m build --wheel
+    python3 -m build --wheel
 )
 
 # make the container name the same as the root folder name of this clone
-container_name=$(cd ..; basename $(realpath .))
+container_name="gphotos-sync-jr"
 echo building $container_name ...
 
 # run the build with required build-args for a runtime build
