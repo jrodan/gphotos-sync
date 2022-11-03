@@ -130,7 +130,7 @@ jobs:
             requirements_dev.txt
 
   release:
-    needs: [lint, wheel, test]
+    needs: [lint, wheel]
     runs-on: ubuntu-latest
     # upload to PyPI and make a release on every tag
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
