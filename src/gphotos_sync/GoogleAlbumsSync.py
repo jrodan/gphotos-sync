@@ -247,14 +247,18 @@ class GoogleAlbumsSync(object):
             else:
                 d = end_date
             year = Utils.safe_str_time(d, "%Y")
-            month = Utils.safe_str_time(d, self.month_format or "%m%d")
+            # month = Utils.safe_str_time(d, self.month_format or "%m-%d")
+            month = Utils.safe_str_time(d, "%m-%d")
 
-            if self._use_flat_path:
-                fmt = self.path_format or "{0}-{1} {2}"
-                rel_path = fmt.format(year, month, album_name)
-            else:
-                fmt = self.path_format or "{0} {1}"
-                rel_path = str(Path(year) / fmt.format(month, album_name))
+            # if self._use_flat_path:
+            #     fmt = self.path_format or "{0}-{1} {2}"
+            #     rel_path = fmt.format(year, month, album_name)
+            # else:
+            #     fmt = self.path_format or "{0} {1}"
+            #     rel_path = str(Path(year) / fmt.format(month, album_name))
+
+            fmt = self.path_format or "{0}-{1} {2}"
+            rel_path = fmt.format(year, month, album_name)
 
         link_folder: Path = self._links_root / rel_path
         return link_folder
@@ -321,12 +325,16 @@ class GoogleAlbumsSync(object):
 
                 created_date = Utils.string_to_date(created)
                 if full_file_name.exists():
-                    if self._use_hardlinks:
-                        os.link(full_file_name, link_file)
-                    elif self._ntfs_override:
-                        os.symlink(relative_filename, link_file)
-                    else:
-                        link_file.symlink_to(relative_filename)
+
+                    # print("from: "+full_file_name+" to: "+link_file)
+                    shutil.move(full_file_name, link_file)
+                    # os.link(link_file, full_file_name)
+                    # if self._use_hardlinks:
+                    #     os.link(full_file_name, link_file)
+                    # elif self._ntfs_override:
+                    #     os.symlink(relative_filename, link_file)
+                    # else:
+                    #     link_file.symlink_to(relative_filename)
                 else:
                     log.debug("skip link for %s, not downloaded", file_name)
 

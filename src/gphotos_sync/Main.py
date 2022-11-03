@@ -405,6 +405,9 @@ class GooglePhotosSyncMain:
                 and not args.skip_index
                 and (files_downloaded > 0 or args.skip_files or args.rescan)
             ) or (args.album is not None or args.album_regex is not None):
+
+                print("index_album_media")
+
                 self.google_albums_sync.index_album_media()
                 # run download again to pick up files indexed in albums only
                 if not args.index_only:
@@ -416,9 +419,10 @@ class GooglePhotosSyncMain:
             if not args.index_only:
                 if (
                     not args.skip_albums
-                    and (files_downloaded > 0 or args.skip_files or args.rescan)
+                    # and (files_downloaded > 0 or args.skip_files or args.rescan)
                     or (args.album is not None or args.album_regex is not None)
                 ):
+                    print("create_album_content_links")
                     self.google_albums_sync.create_album_content_links()
                 if args.do_delete:
                     self.google_photos_idx.check_for_removed()

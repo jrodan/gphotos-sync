@@ -26,10 +26,12 @@ class BaseMedia(object):
     def set_path_by_date(self, root: Path, use_flat_path: bool = False):
         y = "{:04d}".format(self.create_date.year)
         m = "{:02d}".format(self.create_date.month)
-        if use_flat_path:
-            self._relative_folder = root / (y + "-" + m)
-        else:
-            self._relative_folder = root / y / m
+        
+        self._relative_folder = root / y
+        # if use_flat_path:
+        #     self._relative_folder = root / (y + "-" + m)
+        # else:
+        #     self._relative_folder = root / y / m
 
     @property
     def is_video(self) -> bool:
