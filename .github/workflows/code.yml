@@ -189,19 +189,6 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: |
-            ghcr.io/${{ github.repository }}
-            # github repo and dockerhub tag must match for this to work
-            ${{ github.repository }}
-          tags: |
-            type=ref,event=branch
-            type=ref,event=tag
-            type=raw,value=latest
-
       # required for multi-arch build
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -218,7 +205,7 @@ jobs:
           platforms: linux/amd64,linux/arm/v7,linux/arm64/v8
           push: ${{ github.event_name != 'pull_request' }}
           build-args: BASE=python:3.10-slim
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ secrets.REGISTRY_HOST }}/gphotos-sync:latest
+          labels: ${{ secrets.REGISTRY_HOST }}/gphotos-sync
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
